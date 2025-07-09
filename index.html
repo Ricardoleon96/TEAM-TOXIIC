@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEAM TOXIIC - Más Que un Equipo. Un Estado Mental.</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjMGEwYTBhIi8+CjxwYXRoIGQ9Ik0xNiA4TDI0IDE2TDE2IDI0TDggMTZMMTYgOFoiIGZpbGw9IiMzOWZmMTQiLz4KPC9zdmc+">
+
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-container">
+            <div class="toxic-drop">
+                <div class="drop-fill"></div>
+            </div>
+            <p class="loading-text">Entrando al Reino...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="nav-hidden">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="toxic-text">TOXIIC</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" data-section="home">Inicio</a></li>
+                <li><a href="#about" data-section="about">Nosotros</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-background">
+            <div class="video-background">
+                <video id="bg-video-1" class="bg-video active" autoplay muted loop>
+                    <source src="assets/videos/Inicio 01.mp4" type="video/mp4">
+                </video>
+                <video id="bg-video-2" class="bg-video" autoplay muted loop>
+                    <source src="assets/videos/Inicio 02.mp4" type="video/mp4">
+                </video>
+                <video id="bg-video-3" class="bg-video" autoplay muted loop>
+                    <source src="assets/videos/Inicio 03.mp4" type="video/mp4">
+                </video>
+                <div class="video-overlay"></div>
+            </div>
+            <div class="glitch-overlay"></div>
+            <div class="particle-system"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="team-text">TEAM</span>
+                <span class="toxiic-text">TOXIIC</span>
+            </h1>
+            <p class="hero-subtitle">Más Que un Equipo. Un Estado Mental.</p>
+            <button class="hero-cta" onclick="scrollToSection('about')">
+                <span>Entra al Reino</span>
+                <div class="cta-glow"></div>
+            </button>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">No Nacidos. Ensamblados.</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="about-story">
+                        Comenzó como todas las grandes cosas — sin intención. Un grupo de amigos perdiendo más de lo que deberían, 
+                        ganando cuando importaba, y siempre volviendo a conectarse. Así nació TOXIIC.
+                    </p>
+                    <p class="about-description">
+                        No somos tu organización de esports típica. No perseguimos tendencias ni seguimos fórmulas. 
+                        Creamos nuestro propio camino, un juego a la vez, una jugada clutch a la vez. 
+                        TOXIIC no es solo lo que jugamos — es quienes somos.
+                    </p>
+                </div>
+                <div class="about-visual">
+                    <div class="origin-comic">
+                        <div class="comic-panel active" data-panel="1">
+                            <div class="panel-content">
+                                <h3>Capítulo I</h3>
+                                <p>El Inicio</p>
+                            </div>
+                        </div>
+                        <div class="comic-panel" data-panel="2">
+                            <div class="panel-content">
+                                <h3>Capítulo II</h3>
+                                <p>El Ensamblaje</p>
+                            </div>
+                        </div>
+                        <div class="comic-panel" data-panel="3">
+                            <div class="panel-content">
+                                <h3>Capítulo III</h3>
+                                <p>El Legado</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="toxic-text">TOXIIC</span>
+                    <div class="logo-pulse"></div>
+                </div>
+                <div class="footer-links">
+                    <div class="social-links">
+                        <a href="#" class="social-link" data-platform="twitch">
+                            <span>Twitch</span>
+                        </a>
+                        <a href="#" class="social-link" data-platform="youtube">
+                            <span>YouTube</span>
+                        </a>
+                        <a href="#" class="social-link" data-platform="twitter">
+                            <span>Twitter</span>
+                        </a>
+                        <a href="#" class="social-link" data-platform="discord">
+                            <span>Discord</span>
+                        </a>
+                    </div>
+                    <div class="contact-info">
+                        <a href="mailto:contacto@teamtoxiic.com">contacto@teamtoxiic.com</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TEAM TOXIIC. Todos los derechos reservados. Esparce el veneno.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/script.js"></script>
+</body>
+</html>

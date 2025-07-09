@@ -1,0 +1,33 @@
+{
+  "name": "team-toxiic-website",
+  "version": "1.0.0",
+  "description": "Official website for TEAM TOXIIC esports organization",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "python -m http.server 8000",
+    "dev": "live-server --port=8000 --host=localhost"
+  },
+  "keywords": [
+    "esports",
+    "gaming",
+    "team-toxiic",
+    "website",
+    "html",
+    "css",
+    "javascript"
+  ],
+  "author": "TEAM TOXIIC",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ricardoleon96/TEAM-TOXIIC.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ricardoleon96/TEAM-TOXIIC/issues"
+  },
+  "homepage": "https://teamtoxiic.com"
+}
