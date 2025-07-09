@@ -219,23 +219,112 @@ function initializeTeamFilters() {
     });
 }
 
-// Comic Panels
+// Comic Panels & Carousel
 function initializeComicPanels() {
     const comicPanels = document.querySelectorAll('.comic-panel');
+    const carouselContainer = document.querySelector('.carousel-container');
+    const originComic = document.querySelector('.origin-comic');
     
+    // Funcionalidad de click en las tarjetas
     comicPanels.forEach(panel => {
         panel.addEventListener('click', () => {
+            // Remover active de todas las tarjetas
             comicPanels.forEach(p => p.classList.remove('active'));
+            // Agregar active a la tarjeta clickeada
             panel.classList.add('active');
         });
     });
     
-    // Auto-rotate comic panels
+    // Control del carrusel con mouse/touch
+    if (carouselContainer && originComic) {
+        let isMouseDown = false;
+        let startX = 0;
+        let scrollLeft = 0;
+        let animationPaused = false;
+        
+        // Pausa al hover (ya manejado en CSS, pero reforzamos con JS)
+        carouselContainer.addEventListener('mouseenter', () => {
+            originComic.style.animationPlayState = 'paused';
+            animationPaused = true;
+        });
+        
+        carouselContainer.addEventListener('mouseleave', () => {
+            if (!isMouseDown) {
+                originComic.style.animationPlayState = 'running';
+                animationPaused = false;
+            }
+        });
+        
+        // Funcionalidad de arrastrar (opcional)
+        carouselContainer.addEventListener('mousedown', (e) => {
+            isMouseDown = true;
+            startX = e.pageX - carouselContainer.offsetLeft;
+            scrollLeft = carouselContainer.scrollLeft;
+            originComic.style.animationPlayState = 'paused';
+        });
+        
+        carouselContainer.addEventListener('mouseleave', () => {
+            isMouseDown = false;
+            if (!animationPaused) {
+                originComic.style.animationPlayState = 'running';
+            }
+        });
+        
+        carouselContainer.addEventListener('mouseup', () => {
+            isMouseDown = false;
+            setTimeout(() => {
+                if (!animationPaused) {
+                    originComic.style.animationPlayState = 'running';
+                }
+            }, 500);
+        });
+        
+        carouselContainer.addEventListener('mousemove', (e) => {
+            if (!isMouseDown) return;
+            e.preventDefault();
+            const x = e.pageX - carouselContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            carouselContainer.scrollLeft = scrollLeft - walk;
+        });
+        
+        // Soporte para touch (móviles)
+        let touchStartX = 0;
+        
+        carouselContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            originComic.style.animationPlayState = 'paused';
+        });
+        
+        carouselContainer.addEventListener('touchend', () => {
+            setTimeout(() => {
+                originComic.style.animationPlayState = 'running';
+            }, 500);
+        });
+        
+        carouselContainer.addEventListener('touchmove', (e) => {
+            if (!touchStartX) return;
+            const touchX = e.touches[0].clientX;
+            const diffX = touchStartX - touchX;
+            carouselContainer.scrollLeft += diffX;
+            touchStartX = touchX;
+        });
+    }
+    
+    // Auto-rotate individual panel highlight (opcional)
     let currentPanel = 0;
+    const uniquePanels = document.querySelectorAll('.comic-panel[data-panel]');
+    const panelCount = 5; // Solo los paneles únicos
+    
     setInterval(() => {
+        // Solo aplicar active a los primeros 5 paneles únicos
         comicPanels.forEach(p => p.classList.remove('active'));
-        comicPanels[currentPanel].classList.add('active');
-        currentPanel = (currentPanel + 1) % comicPanels.length;
+        
+        // Encontrar todos los paneles con el mismo data-panel
+        const currentDataPanel = (currentPanel % panelCount) + 1;
+        const matchingPanels = document.querySelectorAll(`[data-panel="${currentDataPanel}"]`);
+        matchingPanels.forEach(panel => panel.classList.add('active'));
+        
+        currentPanel = (currentPanel + 1) % panelCount;
     }, 4000);
 }
 

@@ -516,11 +516,24 @@ section {
 }
 
 /* About Section */
+.about-section {
+    min-height: 30vh;
+}
+
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     align-items: center;
+    max-width: none;
+    margin: 0 auto;
+    width: 140%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid white;
+    padding: 2rem;
+    border-radius: 8px;
 }
 
 .about-text {
@@ -542,7 +555,7 @@ section {
 .origin-comic {
     display: flex;
     gap: 1rem;
-    height: 300px;
+    height: 439px;
 }
 
 .comic-panel {
@@ -556,6 +569,10 @@ section {
     cursor: pointer;
     transition: all 0.3s ease;
     opacity: 0.6;
+    width: 292px;
+    height: 439px;
+    position: relative;
+    overflow: hidden;
 }
 
 .comic-panel.active,
@@ -568,12 +585,50 @@ section {
 .panel-content {
     text-align: center;
     color: #f5f5f5;
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1rem;
+    border-radius: 4px;
+    backdrop-filter: blur(2px);
 }
 
 .panel-content h3 {
     font-family: 'Orbitron', monospace;
     margin-bottom: 0.5rem;
     color: #B2FD4B;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.chapter-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.comic-panel.active .chapter-image,
+.comic-panel:hover .chapter-image {
+    filter: brightness(1.1) contrast(1.1);
+}
+
+/* Estilo específico para las tarjetas con imagen de fondo */
+.comic-panel[data-panel="1"],
+.comic-panel[data-panel="2"],
+.comic-panel[data-panel="3"] {
+    background: none;
+}
+
+.comic-panel[data-panel="1"] .panel-content,
+.comic-panel[data-panel="2"] .panel-content,
+.comic-panel[data-panel="3"] .panel-content {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(2px);
 }
 
 /* Team Section */
