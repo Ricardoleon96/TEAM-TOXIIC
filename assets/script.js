@@ -515,14 +515,14 @@ document.addEventListener('keydown', (e) => {
 });
 
 function navigateToNextSection() {
-    const sections = ['home', 'about'];
+    const sections = ['home', 'about', 'about2'];
     const currentIndex = sections.indexOf(currentSection);
     const nextIndex = (currentIndex + 1) % sections.length;
     scrollToSection(sections[nextIndex]);
 }
 
 function navigateToPrevSection() {
-    const sections = ['home', 'about'];
+    const sections = ['home', 'about', 'about2'];
     const currentIndex = sections.indexOf(currentSection);
     const prevIndex = (currentIndex - 1 + sections.length) % sections.length;
     scrollToSection(sections[prevIndex]);
