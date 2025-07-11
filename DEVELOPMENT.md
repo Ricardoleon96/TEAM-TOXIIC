@@ -97,7 +97,6 @@
 #### Secciones Principales
 - **Inicio**: Página principal con video de fondo rotativo y introducción al equipo
 - **Nosotros**: Historia y filosofía de TEAM TOXIIC con elementos de cómic interactivos
-- **Nuestra Comunidad**: Presentación del equipo principal con tarjetas estilo pixel art
 - **Footer**: Enlaces sociales y información de contacto
 
 #### Sección "Nuestra Comunidad"
