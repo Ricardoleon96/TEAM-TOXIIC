@@ -1,0 +1,451 @@
+/* Additional Animations and Effects */
+
+/* Glitch Animation for Text */
+@keyframes textGlitch {
+    0% {
+        text-shadow: 0.05em 0 0 #B2FD4B, -0.05em -0.025em 0 #8a2be2,
+                     0.025em 0.05em 0 #B2FD4B;
+    }
+    15% {
+        text-shadow: 0.05em 0 0 #B2FD4B, -0.05em -0.025em 0 #8a2be2,
+                     0.025em 0.05em 0 #B2FD4B;
+    }
+    16% {
+        text-shadow: -0.05em -0.025em 0 #B2FD4B, 0.025em 0.025em 0 #8a2be2,
+                     -0.05em -0.05em 0 #B2FD4B;
+    }
+    49% {
+        text-shadow: -0.05em -0.025em 0 #B2FD4B, 0.025em 0.025em 0 #8a2be2,
+                     -0.05em -0.05em 0 #B2FD4B;
+    }
+    50% {
+        text-shadow: 0.025em 0.05em 0 #B2FD4B, 0.05em 0 0 #8a2be2,
+                     0 -0.05em 0 #B2FD4B;
+    }
+    99% {
+        text-shadow: 0.025em 0.05em 0 #B2FD4B, 0.05em 0 0 #8a2be2,
+                     0 -0.05em 0 #B2FD4B;
+    }
+    100% {
+        text-shadow: -0.025em 0 0 #B2FD4B, -0.025em -0.025em 0 #8a2be2,
+                     -0.025em -0.05em 0 #B2FD4B;
+    }
+}
+
+/* Holographic Effect */
+.holographic {
+    background: linear-gradient(45deg, #B2FD4B, #8a2be2, #B2FD4B);
+    background-size: 200% 200%;
+    animation: hologramShift 3s ease-in-out infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+@keyframes hologramShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Toxic Drip Effect */
+.toxic-drip {
+    position: relative;
+    overflow: hidden;
+}
+
+.toxic-drip::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #B2FD4B, transparent);
+    animation: drip 2s ease-in-out infinite;
+}
+
+@keyframes drip {
+    0% { transform: translateY(-100%); }
+    50% { transform: translateY(0); }
+    100% { transform: translateY(calc(100vh + 100%)); }
+}
+
+/* Matrix Rain Effect */
+.matrix-rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.1;
+}
+
+.matrix-rain::before {
+    content: '010110100101101001011010010110100101101001011010';
+    position: absolute;
+    top: -100%;
+    left: 10%;
+    color: #B2FD4B;
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 1;
+    animation: matrixFall 5s linear infinite;
+}
+
+.matrix-rain::after {
+    content: '101001011010010110100101101001011010010110100101';
+    position: absolute;
+    top: -100%;
+    right: 15%;
+    color: #B2FD4B;
+    font-family: monospace;
+    font-size: 10px;
+    line-height: 1;
+    animation: matrixFall 7s linear infinite 2s;
+}
+
+@keyframes matrixFall {
+    0% { transform: translateY(-100vh); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* Neon Box Shadow */
+.neon-box {
+    box-shadow: 
+        0 0 5px #B2FD4B,
+        0 0 10px #B2FD4B,
+        0 0 20px #B2FD4B,
+        0 0 40px #B2FD4B;
+}
+
+/* Scan Lines Effect */
+.scan-lines {
+    position: relative;
+    overflow: hidden;
+}
+
+.scan-lines::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 2px,
+            rgba(178, 253, 75, 0.03) 2px,
+            rgba(178, 253, 75, 0.03) 4px
+        );
+    pointer-events: none;
+    animation: scanMove 0.1s linear infinite;
+}
+
+@keyframes scanMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(4px); }
+}
+
+/* Toxic Glow Animation */
+.toxic-glow {
+    animation: toxicPulse 2s ease-in-out infinite;
+}
+
+@keyframes toxicPulse {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(178, 253, 75, 0.5);
+    }
+    50% {
+        box-shadow: 
+            0 0 10px rgba(178, 253, 75, 0.8),
+            0 0 20px rgba(178, 253, 75, 0.6),
+            0 0 30px rgba(178, 253, 75, 0.4);
+    }
+}
+
+/* Cyberpunk Grid */
+.cyber-grid {
+    background-image: 
+        linear-gradient(rgba(57, 255, 20, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57, 255, 20, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Distortion Effect */
+.distortion {
+    filter: blur(0px);
+    animation: distort 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes distort {
+    0% { filter: blur(0px) hue-rotate(0deg); }
+    100% { filter: blur(0.5px) hue-rotate(2deg); }
+}
+
+/* Loading Spinner */
+.toxic-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(57, 255, 20, 0.2);
+    border-top: 3px solid #39ff14;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Typewriter Effect */
+.typewriter {
+    overflow: hidden;
+    border-right: 2px solid #39ff14;
+    white-space: nowrap;
+    animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: #39ff14; }
+}
+
+/* Community Rolling Gallery Animations */
+@keyframes infiniteRoll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+@keyframes pixelGlitch {
+    0% { transform: translate(0); filter: hue-rotate(0deg); }
+    10% { transform: translate(-1px, 1px); filter: hue-rotate(90deg); }
+    20% { transform: translate(-2px, 0px); filter: hue-rotate(180deg); }
+    30% { transform: translate(1px, -1px); filter: hue-rotate(270deg); }
+    40% { transform: translate(1px, 1px); filter: hue-rotate(360deg); }
+    50% { transform: translate(-1px, -1px); filter: hue-rotate(90deg); }
+    60% { transform: translate(-2px, 1px); filter: hue-rotate(180deg); }
+    70% { transform: translate(2px, 1px); filter: hue-rotate(270deg); }
+    80% { transform: translate(-1px, -1px); filter: hue-rotate(360deg); }
+    90% { transform: translate(1px, 2px); filter: hue-rotate(90deg); }
+    100% { transform: translate(0); filter: hue-rotate(0deg); }
+}
+
+@keyframes pixelPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        filter: brightness(1) drop-shadow(0 0 5px rgba(178, 253, 75, 0.3)); 
+    }
+    50% { 
+        transform: scale(1.02); 
+        filter: brightness(1.1) drop-shadow(0 0 15px rgba(178, 253, 75, 0.6)); 
+    }
+}
+
+@keyframes cardFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes borderFlow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes scanLine {
+    0% { transform: translateY(-100%); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes pixelShimmer {
+    0%, 100% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+}
+
+@keyframes glitchWave {
+    0%, 100% { 
+        transform: translateX(0); 
+        opacity: 0; 
+    }
+    50% { 
+        transform: translateX(100%); 
+        opacity: 0.4; 
+    }
+}
+
+@keyframes buttonGlow {
+    0%, 100% { 
+        box-shadow: 0 0 5px rgba(178, 253, 75, 0.3);
+        border-color: #B2FD4B;
+    }
+    50% { 
+        box-shadow: 0 0 20px rgba(178, 253, 75, 0.8);
+        border-color: #39ff14;
+    }
+}
+
+/* Community Section Background Animation */
+.community-section {
+    animation: pixelShimmer 20s ease-in-out infinite;
+}
+
+/* Rolling Card Animations */
+.rolling-card {
+    animation: cardFloat 6s ease-in-out infinite;
+}
+
+.rolling-card:nth-child(odd) {
+    animation-delay: 3s;
+}
+
+.rolling-card:hover {
+    animation: pixelFlicker 0.15s ease-in-out 2;
+}
+
+/* Gallery Control Animations */
+.gallery-btn:hover {
+    animation: buttonGlow 1s ease-in-out infinite;
+}
+
+.play-pause-btn:hover {
+    animation: buttonGlow 1s ease-in-out infinite;
+}
+
+.pixel-btn:hover {
+    animation: buttonGlow 1s ease-in-out infinite;
+}
+
+/* Avatar Animations */
+.pixel-avatar {
+    animation: pixelPulse 4s ease-in-out infinite;
+}
+
+.pixel-avatar:nth-child(even) {
+    animation-delay: 2s;
+}
+
+/* Glitch Overlay Animation */
+.glitch-overlay {
+    animation: glitchWave 5s ease-in-out infinite;
+}
+
+/* Border Animation for Cards */
+.rolling-card::before {
+    animation: borderFlow 3s ease-in-out infinite;
+}
+
+/* Pixel Flicker Effect */
+@keyframes pixelFlicker {
+    0%, 100% { filter: brightness(1); }
+    25% { filter: brightness(1.1) hue-rotate(10deg); }
+    50% { filter: brightness(0.9) hue-rotate(-5deg); }
+    75% { filter: brightness(1.05) hue-rotate(5deg); }
+}
+
+/* Responsive Video Container */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+.video-container iframe,
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #39ff14;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2dd40a;
+}
+
+/* Firefox Scrollbar */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #39ff14 #1a1a1a;
+}
+
+/* Print Styles */
+@media print {
+    .nav-hidden,
+    .particle-system,
+    .loading-screen {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .section-title {
+        color: black !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --color-primary: #00ff00;
+        --color-background: #000000;
+        --color-text: #ffffff;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark Mode (if needed) */
+@media (prefers-color-scheme: light) {
+    /* Light mode overrides if needed */
+    /* Currently designed for dark mode by default */
+}
+
+/* Focus Styles for Accessibility */
+button:focus,
+a:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid #39ff14;
+    outline-offset: 2px;
+}
