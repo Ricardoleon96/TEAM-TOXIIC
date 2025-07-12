@@ -38,7 +38,7 @@ Since no existing brand guidelines are available, this analysis proposes a compr
 ### Color Palette
 
 **Primary Colors:**
-- **Toxic Green**: #00FF41 (Bright, electric green)
+- **Toxic Green**: #B2FD4B (Bright, electric green - signature brand color)
 - **Dark Matter**: #0A0A0A (Deep black/charcoal)
 - **Shadow Gray**: #1A1A1A (Dark gray for backgrounds)
 
