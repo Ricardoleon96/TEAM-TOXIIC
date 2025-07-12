@@ -1,9 +1,12 @@
 // Global Variables
 let currentSection = 'home';
+let isLoading = true;
 let currentVideoIndex = 0;
 let videoRotationInterval;
 
 // DOM Elements
+const loadingScreen = document.getElementById('loading-screen');
+const mainNav = document.getElementById('main-nav');
 const heroSection = document.getElementById('home');
 const backgroundVideos = document.querySelectorAll('.bg-video');
 
@@ -13,16 +16,35 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeWebsite() {
-    initializeScrollEffects();
-    initializeComicPanels();
-    initializeSmoothScrolling();
-    initializeIntersectionObserver();
-    initializeBackgroundVideos();
-    handleVideoErrors();
-    initializeVideoIntersectionObserver();
-    initializeSocialLinks();
-    handleMobileVideoPlayback();
-    initializeMobileNav();
+    // Show loading screen
+    setTimeout(() => {
+        hideLoadingScreen();
+        showNavigation();
+        initializeScrollEffects();
+        initializeComicPanels();
+        initializeSmoothScrolling();
+        initializeIntersectionObserver();
+        initializeBackgroundVideos();
+        handleVideoErrors();
+        adaptVideoQuality();
+        initializeVideoIntersectionObserver();
+        initializeProductVariations();
+    }, 3000);
+}
+
+// Loading Screen
+function hideLoadingScreen() {
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => {
+        loadingScreen.style.display = 'none';
+        isLoading = false;
+    }, 500);
+}
+
+// Navigation
+function showNavigation() {
+    // Navigation is now always visible - no special behavior needed
+    // Keep function for compatibility but remove nav-hidden logic
 }
 
 // Scroll Effects
@@ -34,39 +56,27 @@ function initializeScrollEffects() {
         updateActiveSection();
         
         // Parallax effects
-        updateParallax(scrollTop);
+        if (!isLoading) {
+            updateParallax(scrollTop);
+        }
     });
 }
 
 // Update Active Section
 function updateActiveSection() {
     const sections = document.querySelectorAll('section[id]');
-    const scrollPosition = window.scrollY + 100;
-    let activeSection = null;
+    const scrollPosition = window.scrollY + 200;
     
-    // If we're at the very top, home section should be active
-    if (window.scrollY < 50) {
-        activeSection = 'home';
-    } else {
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-            
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                activeSection = sectionId;
-            }
-        });
-    }
-    
-    // Only update if we found an active section
-    if (activeSection) {
-        currentSection = activeSection;
-        updateActiveNavLink(activeSection);
-    } else {
-        // If no section is active, clear all active states
-        updateActiveNavLink(null);
-    }
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSection = sectionId;
+            updateActiveNavLink(sectionId);
+        }
+    });
 }
 
 function updateActiveNavLink(activeSection) {
@@ -74,18 +84,9 @@ function updateActiveNavLink(activeSection) {
     
     navLinks.forEach(link => {
         link.classList.remove('active');
-        // Only add active class if we have an active section and it matches this link
-        if (activeSection && link.getAttribute('data-section') === activeSection) {
+        if (link.getAttribute('data-section') === activeSection) {
             link.classList.add('active');
         }
-    });
-}
-
-// Reset all navigation links to default state
-function resetNavLinks() {
-    const navLinks = document.querySelectorAll('.nav-links a');
-    navLinks.forEach(link => {
-        link.classList.remove('active');
     });
 }
 
@@ -112,45 +113,8 @@ function initializeSmoothScrolling() {
             e.preventDefault();
             const targetSection = link.getAttribute('data-section');
             scrollToSection(targetSection);
-            
-            // Close mobile menu if open
-            const navLinksContainer = document.querySelector('.nav-links');
-            const navToggle = document.querySelector('.nav-toggle');
-            if (navLinksContainer && navLinksContainer.classList.contains('nav-open')) {
-                navLinksContainer.classList.remove('nav-open');
-                navToggle.classList.remove('active');
-            }
         });
     });
-}
-
-// Mobile Navigation
-function initializeMobileNav() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('nav-open');
-            navToggle.classList.toggle('active');
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
-                navLinks.classList.remove('nav-open');
-                navToggle.classList.remove('active');
-            }
-        });
-        
-        // Close menu on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && navLinks.classList.contains('nav-open')) {
-                navLinks.classList.remove('nav-open');
-                navToggle.classList.remove('active');
-            }
-        });
-    }
 }
 
 function scrollToSection(sectionId) {
@@ -229,6 +193,19 @@ function initializeIntersectionObserver() {
     });
 }
 
+// Mobile Navigation
+function initializeMobileNav() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (navToggle) {
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-open');
+            navToggle.classList.toggle('active');
+        });
+    }
+}
+
 // Social Media Integration
 function initializeSocialLinks() {
     const socialLinks = document.querySelectorAll('.social-link');
@@ -253,6 +230,42 @@ function openSocialPlatform(platform) {
     if (urls[platform]) {
         window.open(urls[platform], '_blank');
     }
+}
+
+// Error Handling
+window.addEventListener('error', (e) => {
+    console.error('Website Error:', e.error);
+});
+
+// Analytics Integration (placeholder)
+function trackEvent(eventName, properties = {}) {
+    console.log('Event:', eventName, properties);
+}
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    initializeMobileNav();
+    initializeSocialLinks();
+    preloadImages();
+    handleMobileVideoPlayback();
+    
+    // Track page load
+    trackEvent('page_load', {
+        section: 'home',
+        timestamp: Date.now()
+    });
+});
+
+// Preload Critical Resources
+function preloadImages() {
+    const imagesToPreload = [
+        // Add any critical images here
+    ];
+    
+    imagesToPreload.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
 }
 
 // Background Videos Management
@@ -329,7 +342,7 @@ document.addEventListener('visibilitychange', () => {
         videos.forEach(video => {
             video.play().catch(e => console.log('Reproducción de video falló:', e));
         });
-        if (!videoRotationInterval) {
+        if (!videoRotationInterval && !isLoading) {
             startVideoRotation();
         }
     }
@@ -394,6 +407,35 @@ function handleVideoErrors() {
     });
 }
 
+// Video Quality Adaptation
+function adaptVideoQuality() {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const videos = document.querySelectorAll('.bg-video');
+    
+    if (connection) {
+        // Reduce video quality on slow connections
+        if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+            videos.forEach(video => {
+                video.style.display = 'none';
+            });
+            document.querySelector('.hero-background').classList.add('video-error');
+        }
+        
+        // Monitor connection changes
+        connection.addEventListener('change', () => {
+            if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+                stopVideoRotation();
+                videos.forEach(video => video.pause());
+            } else {
+                videos.forEach(video => video.play().catch(e => console.log('Video play failed:', e)));
+                if (!videoRotationInterval) {
+                    startVideoRotation();
+                }
+            }
+        });
+    }
+}
+
 // Video Intersection Observer (pause when not visible)
 function initializeVideoIntersectionObserver() {
     const heroSection = document.querySelector('.hero-section');
@@ -424,21 +466,183 @@ function initializeVideoIntersectionObserver() {
     }
 }
 
-// Easter Eggs
-let clickCount = 0;
-document.addEventListener('DOMContentLoaded', () => {
-    const footerLogo = document.querySelector('.footer-logo');
-    if (footerLogo) {
-        footerLogo.addEventListener('click', () => {
-            clickCount++;
-            if (clickCount === 5) {
-                document.body.classList.add('hyper-toxic');
-                setTimeout(() => {
-                    document.body.classList.remove('hyper-toxic');
-                    clickCount = 0;
-                }, 3000);
+// Product Variations and Auto-rotation
+function initializeProductVariations() {
+    const productCards = document.querySelectorAll('.product-card[data-variations]');
+    const shopSection = document.querySelector('.shop-section');
+    
+    let productData = []; // Store product card data
+    let isShopVisible = false;
+    
+    // Prepare product card data
+    productCards.forEach((card, cardIndex) => {
+        const variations = JSON.parse(card.getAttribute('data-variations'));
+        const productImage = card.querySelector('.product-photo');
+        const dots = card.querySelectorAll('.dot');
+        
+        if (variations.length <= 1) return; // Skip single-variation products
+        
+        // Only allow auto-rotation for featured product (left card)
+        const isFeaturedProduct = card.classList.contains('featured-product');
+        
+        productData.push({
+            card,
+            variations,
+            productImage,
+            dots,
+            currentIndex: 0,
+            autoRotateInterval: null,
+            cardIndex,
+            canAutoRotate: isFeaturedProduct // Only featured product can auto-rotate
+        });
+        
+        // Initialize first image and dots (but don't start rotation yet)
+        updateProductImage(productData[productData.length - 1]);
+    });
+    
+    // Start auto-rotation for a specific product
+    function startAutoRotation(productInfo) {
+        if (productInfo.autoRotateInterval) return; // Already running
+        
+        productInfo.autoRotateInterval = setInterval(() => {
+            productInfo.currentIndex = (productInfo.currentIndex + 1) % productInfo.variations.length;
+            updateProductImage(productInfo);
+        }, 10000); // Change image every 10 seconds
+    }
+    
+    // Stop auto-rotation for a specific product
+    function stopAutoRotation(productInfo) {
+        if (productInfo.autoRotateInterval) {
+            clearInterval(productInfo.autoRotateInterval);
+            productInfo.autoRotateInterval = null;
+        }
+    }
+    
+    // Start all auto-rotations
+    function startAllRotations() {
+        productData.forEach(productInfo => {
+            if (productInfo.variations.length > 1 && productInfo.canAutoRotate) {
+                startAutoRotation(productInfo);
             }
         });
+    }
+    
+    // Stop all auto-rotations
+    function stopAllRotations() {
+        productData.forEach(productInfo => {
+            stopAutoRotation(productInfo);
+        });
+    }
+    
+    // Update product image and dots
+    function updateProductImage(productInfo) {
+        const { variations, currentIndex, productImage, dots, card } = productInfo;
+        const newImageSrc = `assets/Shop/${variations[currentIndex]}`;
+        
+        // Add transitioning class for enhanced animation
+        card.classList.add('transitioning');
+        
+        // Create smooth crossfade transition
+        productImage.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        productImage.style.opacity = '0';
+        
+        setTimeout(() => {
+            productImage.src = newImageSrc;
+            
+            // Wait for image to load before fading in
+            productImage.onload = () => {
+                productImage.style.opacity = '1';
+                
+                // Update active dot with smooth animation
+                dots.forEach((dot, index) => {
+                    dot.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+                
+                // Remove transitioning class after animation
+                setTimeout(() => {
+                    card.classList.remove('transitioning');
+                }, 400);
+            };
+            
+            // Fallback in case onload doesn't fire
+            setTimeout(() => {
+                if (productImage.style.opacity === '0') {
+                    productImage.style.opacity = '1';
+                    card.classList.remove('transitioning');
+                }
+            }, 200);
+            
+        }, 400); // Half of the fade duration
+    }
+    
+    // Handle dot clicks for all products
+    productData.forEach(productInfo => {
+        productInfo.dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                productInfo.currentIndex = index;
+                updateProductImage(productInfo);
+                stopAutoRotation(productInfo);
+                
+                // Restart auto-rotation after 5 seconds of inactivity (only if shop is visible and can auto-rotate)
+                setTimeout(() => {
+                    if (isShopVisible && productInfo.canAutoRotate) {
+                        startAutoRotation(productInfo);
+                    }
+                }, 5000);
+            });
+        });
+    });
+    
+    // Intersection Observer for shop section
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Shop section is visible, start auto-rotation
+                isShopVisible = true;
+                startAllRotations();
+            } else {
+                // Shop section is not visible, stop auto-rotation
+                isShopVisible = false;
+                stopAllRotations();
+            }
+        });
+    }, {
+        threshold: 0.1 // Start when 10% of shop section is visible
+    });
+    
+    // Observe the shop section
+    if (shopSection) {
+        observer.observe(shopSection);
+    }
+    
+    // Fallback: Start rotation after 5 seconds if shop section exists
+    setTimeout(() => {
+        if (shopSection && productData.length > 0) {
+            isShopVisible = true;
+            startAllRotations();
+        }
+    }, 5000);
+}
+
+// Initialize product variations when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait for images to load before initializing variations
+    setTimeout(() => {
+        initializeProductVariations();
+    }, 1000);
+});
+
+// Easter Eggs
+let clickCount = 0;
+document.querySelector('.footer-logo').addEventListener('click', () => {
+    clickCount++;
+    if (clickCount === 5) {
+        document.body.classList.add('hyper-toxic');
+        setTimeout(() => {
+            document.body.classList.remove('hyper-toxic');
+            clickCount = 0;
+        }, 3000);
     }
 });
 
@@ -455,6 +659,20 @@ style.textContent = `
         50% { filter: hue-rotate(180deg) saturate(2); }
         75% { filter: hue-rotate(270deg) saturate(1.5); }
         100% { filter: hue-rotate(360deg) saturate(1); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: scale(1); }
+        to { opacity: 0; transform: scale(0); }
+    }
+    
+    @keyframes glitch {
+        0% { transform: translate(0); }
+        20% { transform: translate(-2px, 2px); }
+        40% { transform: translate(-2px, -2px); }
+        60% { transform: translate(2px, 2px); }
+        80% { transform: translate(2px, -2px); }
+        100% { transform: translate(0); }
     }
 `;
 document.head.appendChild(style);
