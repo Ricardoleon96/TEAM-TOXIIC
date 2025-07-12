@@ -482,6 +482,9 @@ function initializeProductVariations() {
         
         if (variations.length <= 1) return; // Skip single-variation products
         
+        // Only allow auto-rotation for featured product (left card)
+        const isFeaturedProduct = card.classList.contains('featured-product');
+        
         productData.push({
             card,
             variations,
@@ -489,7 +492,8 @@ function initializeProductVariations() {
             dots,
             currentIndex: 0,
             autoRotateInterval: null,
-            cardIndex
+            cardIndex,
+            canAutoRotate: isFeaturedProduct // Only featured product can auto-rotate
         });
         
         // Initialize first image and dots (but don't start rotation yet)
@@ -517,7 +521,7 @@ function initializeProductVariations() {
     // Start all auto-rotations
     function startAllRotations() {
         productData.forEach(productInfo => {
-            if (productInfo.variations.length > 1) {
+            if (productInfo.variations.length > 1 && productInfo.canAutoRotate) {
                 startAutoRotation(productInfo);
             }
         });
@@ -580,9 +584,9 @@ function initializeProductVariations() {
                 updateProductImage(productInfo);
                 stopAutoRotation(productInfo);
                 
-                // Restart auto-rotation after 5 seconds of inactivity (only if shop is visible)
+                // Restart auto-rotation after 5 seconds of inactivity (only if shop is visible and can auto-rotate)
                 setTimeout(() => {
-                    if (isShopVisible) {
+                    if (isShopVisible && productInfo.canAutoRotate) {
                         startAutoRotation(productInfo);
                     }
                 }, 5000);
@@ -604,13 +608,21 @@ function initializeProductVariations() {
             }
         });
     }, {
-        threshold: 0.3 // Start when 30% of shop section is visible
+        threshold: 0.1 // Start when 10% of shop section is visible
     });
     
     // Observe the shop section
     if (shopSection) {
         observer.observe(shopSection);
     }
+    
+    // Fallback: Start rotation after 5 seconds if shop section exists
+    setTimeout(() => {
+        if (shopSection && productData.length > 0) {
+            isShopVisible = true;
+            startAllRotations();
+        }
+    }, 5000);
 }
 
 // Initialize product variations when DOM is loaded
